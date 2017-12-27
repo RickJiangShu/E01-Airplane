@@ -36,9 +36,7 @@ public class Laser : MonoBehaviour
         Vector2 screen = Camera.main.WorldToScreenPoint(transform.position);
         if (!Main.screenArea.Contains(screen))
         {
-            gameObject.SetActive(false);
-            _pool.Enqueue(gameObject);
-
+            Kill();
             //GameObject.Destroy(gameObject);
         }
     }
@@ -48,31 +46,29 @@ public class Laser : MonoBehaviour
         switch (collision.tag)
         {
             case Tags.Meteor:
-
+                Explode();
                 break;
         }
-        
     }
 
     private void Explode()
     {
         _exploding = true;
 
-        
+        m_Renderer.sprite = Resources.Load<Sprite>("Sprites/laserGreenShot");
+
+        Invoke("Kill", 0.1f);
     }
 
-    public static GameObject Generate()
+    private void Kill()
     {
-        GameObject laser;
-        if (_pool.Count > 0)
+        if (_exploding)
         {
-            laser = _pool.Dequeue();
-            laser.SetActive(true);
-            return laser;
+            _exploding = false;
+            m_Renderer.sprite = Resources.Load<Sprite>("Sprites/laserGreen");//恢复
         }
 
-        GameObject prefab = Resources.Load<GameObject>("Prefabs/PlayerLaser");
-        laser = GameObject.Instantiate(prefab);
-        return laser;
+        ObjectPool.Push(gameObject);
     }
+    
 }

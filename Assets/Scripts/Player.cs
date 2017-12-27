@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         #region 实现射击
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject laser = Laser.Generate();
+            GameObject laser = Factory.Generate("PlayerLaser");
             laser.transform.position = transform.position + transform.up * 0.5f;
         }
         #endregion
