@@ -11,9 +11,8 @@ using UnityEngine;
 /// <summary>
 /// 玩家主角类
 /// </summary>
-public class Player : MonoBehaviour
+public class Player : Airplane
 {
-    public float m_Speed = 1.5f;
     public SpriteRenderer m_Renderer;
 
     private bool _keyLeft = false;
@@ -113,8 +112,7 @@ public class Player : MonoBehaviour
         #region 实现射击
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject laser = Factory.Generate("PlayerLaser");
-            laser.transform.position = transform.position + transform.up * 0.5f;
+            EmitLaser(transform.position + Vector3.up * 0.5f);
         }
         #endregion
     }
