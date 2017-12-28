@@ -13,8 +13,6 @@ using UnityEngine;
 /// </summary>
 public class Laser : MonoBehaviour
 {
-    private static Queue<GameObject> _pool = new Queue<GameObject>();
-
     public SpriteRenderer m_Renderer;
     public float m_Speed = 15f;
 

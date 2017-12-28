@@ -19,10 +19,11 @@ public class Player : Airplane
     private bool _keyUp = false;
     private bool _keyRight = false;
     private bool _keyDown = false;
-
+    
     // Use this for initialization
-    void Start()
+    protected override void Start()
     {
+        base.Start();
     }
 
     // Update is called once per frame
@@ -80,7 +81,12 @@ public class Player : Airplane
         }
         else
         {
-            m_Renderer.sprite = Resources.Load<Sprite>("Sprites/player");
+            if (_hp == m_Hp)
+            {
+                m_Renderer.sprite = Resources.Load<Sprite>("Sprites/player");
+            }
+            else
+                m_Renderer.sprite = Resources.Load<Sprite>("Sprites/playerDamaged");
         }
 
         if (_keyUp)
@@ -115,5 +121,13 @@ public class Player : Airplane
             EmitLaser(transform.position + Vector3.up * 0.5f);
         }
         #endregion
+    }
+
+    public override void Hurt()
+    {
+        base.Hurt();
+
+        print(123);
+        m_Renderer.sprite = Resources.Load<Sprite>("Sprites/playerDamaged");
     }
 }

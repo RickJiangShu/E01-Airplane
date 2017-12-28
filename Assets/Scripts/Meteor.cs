@@ -14,15 +14,24 @@ using UnityEngine;
 public class Meteor : MonoBehaviour
 {
     public float m_Speed = 5f;
+
+    private SpriteRenderer _renderer;
+    private Sprite _defaultSprite;
+    private bool _exploding = false;
+
     // Use this for initialization
     void Start()
     {
-
+        _renderer = GetComponent<SpriteRenderer>();
+        _defaultSprite = _renderer.sprite;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_exploding)
+            return;
+
         transform.Translate(Vector3.down * m_Speed * Time.deltaTime);
 
         Vector3 screen = Camera.main.WorldToScreenPoint(transform.position);
@@ -34,8 +43,34 @@ public class Meteor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.tag == Tags.Player)
+        {
+            Explode();
+
+            Player player = collision.GetComponent<Player>();
+            player.Hurt();
+        }
  //       GameObject.Destroy(collision.gameObject);
  //       GameObject.Destroy(gameObject);
     }
 
+    private void Explode()
+    {
+        _exploding = true;
+
+        _renderer.sprite = Resources.Load<Sprite>("Sprites/laserRedShot");
+
+        Invoke("Kill", 0.1f);
+    }
+
+    private void Kill()
+    {
+        if (_exploding)
+        {
+            _exploding = false;
+            _renderer.sprite = _defaultSprite;//恢复
+        }
+
+        ObjectPool.Push(gameObject);
+    }
 }

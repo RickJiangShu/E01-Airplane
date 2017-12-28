@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 入口
@@ -16,11 +17,15 @@ public class Main : MonoBehaviour
     public static readonly Rect screenArea = new Rect(0, 0, Screen.width, Screen.height);
 
     public float m_MeteorEmitInterval = 2.0f;
+    public Image[] m_Hps;
+    public Player m_Player;
 
     // Use this for initialization
     void Start()
     {
         InvokeRepeating("EmitMeteor", m_MeteorEmitInterval, m_MeteorEmitInterval);
+
+        m_Player.onHurted += OnPlayerHurted;
     }
 
     // Update is called once per frame
@@ -47,5 +52,18 @@ public class Main : MonoBehaviour
 
         Vector3 screen = new Vector3(Random.Range(0f, Screen.width), Random.Range(Screen.height + 50f, Screen.height + 100), 10);
         meteor.transform.position = Camera.main.ScreenToWorldPoint(screen);
+    }
+
+    private void OnPlayerHurted()
+    {
+        int i = 0;
+        for (; i < m_Player.m_Hp; i++)
+        {
+            m_Hps[i].gameObject.SetActive(true);
+        }
+        for (; i < 3; i++)
+        {
+            m_Hps[i].gameObject.SetActive(false);
+        }
     }
 }

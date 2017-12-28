@@ -16,9 +16,9 @@ public class Enemy : Airplane
     public float m_LaserInterval = 0.5f;
 
     // Use this for initialization
-    void Start()
+    protected override void Start()
     {
-
+        base.Start();
     }
 
     // Update is called once per frame
