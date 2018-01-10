@@ -28,6 +28,8 @@ public class Airplane : MonoBehaviour
     {
         GameObject laser = Factory.Generate("PlayerLaser");
         laser.transform.position = pos;
+
+        SoundManager.instance.PlayShoot();
     }
 
     public virtual void Hurt()

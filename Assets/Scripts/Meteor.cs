@@ -68,6 +68,8 @@ public class Meteor : MonoBehaviour
 
         _renderer.sprite = Resources.Load<Sprite>("Sprites/laserRedShot");
         Invoke("Kill", 0.1f);
+
+        SoundManager.instance.PlayExplode();
     }
 
     private void Kill()
@@ -77,7 +79,6 @@ public class Meteor : MonoBehaviour
             _exploding = false;
             _renderer.sprite = _defaultSprite;//恢复
         }
-
         ObjectPool.Push(gameObject);
     }
 
@@ -89,7 +90,7 @@ public class Meteor : MonoBehaviour
             _hp = value;
             if (_hp <= 0)
             {
-                Kill();
+                Explode();
             }
         }
     }
