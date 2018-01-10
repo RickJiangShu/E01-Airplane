@@ -4,6 +4,7 @@
  * Email:   rickjiangshu@gmail.com
  * Follow:  https://github.com/RickJiangShu
  */
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class Laser : MonoBehaviour
     public float m_Speed = 15f;
 
     private bool _exploding = false;
+
+    public event Action<GameObject> onTrigger;
 
     // Use this for initialization
     void Start()
@@ -45,6 +48,9 @@ public class Laser : MonoBehaviour
         {
             case Tags.Meteor:
                 Explode();
+                
+                Meteor meteor = collision.gameObject.GetComponent<Meteor>();
+                meteor.hp--;
                 break;
         }
     }

@@ -14,16 +14,24 @@ using UnityEngine;
 public class Meteor : MonoBehaviour
 {
     public float m_Speed = 5f;
+    public int m_Hp = 1;
 
     private SpriteRenderer _renderer;
     private Sprite _defaultSprite;
     private bool _exploding = false;
+    private int _hp;
 
     // Use this for initialization
     void Start()
     {
         _renderer = GetComponent<SpriteRenderer>();
         _defaultSprite = _renderer.sprite;
+        _hp = m_Hp;
+    }
+
+    public void OnDisable()
+    {
+        _hp = m_Hp;
     }
 
     // Update is called once per frame
@@ -59,7 +67,6 @@ public class Meteor : MonoBehaviour
         _exploding = true;
 
         _renderer.sprite = Resources.Load<Sprite>("Sprites/laserRedShot");
-
         Invoke("Kill", 0.1f);
     }
 
@@ -72,5 +79,18 @@ public class Meteor : MonoBehaviour
         }
 
         ObjectPool.Push(gameObject);
+    }
+
+    public int hp
+    {
+        get { return _hp; }
+        set
+        {
+            _hp = value;
+            if (_hp <= 0)
+            {
+                Kill();
+            }
+        }
     }
 }
